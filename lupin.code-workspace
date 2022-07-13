@@ -15,6 +15,6 @@
 			"activityBarBadge.foreground": "#15202b",
 			"sash.hoverBorder": "#ff7700"
 		},
-		"peacock.color": "#b9fa6f"
+		"editor.tabSize": 2
 	}
 }
