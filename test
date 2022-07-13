@@ -2,4 +2,5 @@
 
 CURPATH="$(pwd -P)"
 source "${CURPATH}/build"
+source "${CURPATH}/uninstall"
 source "${CURPATH}/install"
