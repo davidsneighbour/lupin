@@ -1,8 +1,0 @@
-#!/bin/bash
-CURPATH="$(pwd -P)"
-
-    read -r -p 'Title: ' TAG
-    TAG=${TAG// /-}
-    TAG=${TAG,,}
-    hugo new tags/"${TAG}"
-    code ./content/tags/"${TAG}"/_index.md

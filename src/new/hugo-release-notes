@@ -1,6 +1,0 @@
-#!/bin/bash
-CURPATH="$(pwd -P)"
-    read -r -p 'Version: ' VERSION
-    YEAR=$(date +'%Y')
-    hugo new --kind hugo-release-notes blog/"${YEAR}"/hugo-"${VERSION}"-release-notes/index.md
-    code ./content/blog/"${YEAR}"/hugo-"${VERSION}"-release-notes/index.md
