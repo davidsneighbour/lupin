@@ -1,0 +1,5 @@
+#!/bin/bash
+
+CURPATH="$(pwd -P)"
+source "${CURPATH}/build"
+source "${CURPATH}/install"

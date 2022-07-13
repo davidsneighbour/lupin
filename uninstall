@@ -1,0 +1,4 @@
+#!/bin/bash
+
+rm -rf /opt/lupin
+rm /usr/local/bin/lupin

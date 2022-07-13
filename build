@@ -1,0 +1,4 @@
+#!/bin/bash
+
+CURPATH="$(pwd -P)"
+shc -f ${CURPATH}/src/lupin -o ${CURPATH}/dist/lupin

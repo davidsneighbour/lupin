@@ -1,0 +1,6 @@
+#!/bin/bash
+
+CURPATH="$(pwd -P)"
+mkdir -p /opt/lupin
+cp ${CURPATH}/dist/lupin /opt/lupin/
+ln -s /opt/lupin/lupin /usr/local/bin/lupin

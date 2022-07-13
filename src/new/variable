@@ -1,0 +1,6 @@
+#!/bin/bash
+
+CURPATH="$(pwd -P)"
+    #   select TYPE in File Page Section Shortcode Site Taxonomy Menu; do
+    #     read -r -p 'Variable name: ' VARIABLE
+    #     hugo new variables/"${TYPE,,}"/"${VARIABLE}" --kind variable

@@ -1,0 +1,16 @@
+{
+  "recommendations": [
+    "nico-castell.linux-desktop-file",
+    "foxundermoon.shell-format",
+    "shakram02.bash-beautify",
+    "bungcip.better-toml",
+    "timonwong.shellcheck",
+    "wayou.vscode-todo-highlight",
+    "gruntfuggly.todo-tree",
+    "google.wireit",
+    "redhat.vscode-yaml",
+    "ginfuru.ginfuru-better-solarized-dark-theme",
+    "codezombiech.gitignore",
+    "dunstontc.vscode-gitignore-syntax"
+  ]
+}
