@@ -1,30 +1,37 @@
 #!/bin/bash
-
+################################################################################
+# LUPIN.
+################################################################################
+# checking required tools
+################################################################################
 REQUIRED_TOOLS=(
     hugo
+    code
 )
-
-
 for TOOL in "${REQUIRED_TOOLS[@]}"; do
     if ! command -v "${TOOL}" >/dev/null; then
         echo "${TOOL} is required... "
         exit 1
     fi
 done
-
+################################################################################
+# settings up variables
+################################################################################
 SCRIPTPATH="$(
     cd "$(dirname "$0")" >/dev/null 2>&1 || exit
     pwd -P
 )"
 CURPATH="$(pwd -P)"
-
+YEAR=$(date +'%Y')
+MONTH=$(date +'%B')
+################################################################################
+# select new post version
+################################################################################
 PS3='Choose section: '
 OPTIONS=("Post" "Music to program to" "Notes from the Lab" "Hugo Release Notes" "Tag" "Quit")
 select opt in "${OPTIONS[@]}"; do
     case $opt in
         "Post")
-            YEAR=$(date +'%Y')
-            # MONTH=$(date +'%B')
             read -r -p 'Title: ' POST
             POST=${POST// /-}
             POST=${POST,,}
@@ -33,7 +40,6 @@ select opt in "${OPTIONS[@]}"; do
             exit
         ;;
         "Music to program to")
-            YEAR=$(date +'%Y')
             INCREMENT_FILENAME=${CURPATH}/resources/music2program2
             TEMPLATE=${CURPATH}/bin/templates/music2program2.md
             NUMBER=$(cat "$INCREMENT_FILENAME")
@@ -47,7 +53,6 @@ select opt in "${OPTIONS[@]}"; do
             exit
         ;;
         "Notes from the Lab")
-            YEAR=$(date +'%Y')
             read -r -p 'Month: ' TAG
             hugo new --kind notes-from-the-laboratory blog/"${YEAR}"/notes-from-the-laboratory-"${MONTH}"
             code {$CURPATH}/content/blog/"${YEAR}"/notes-from-the-laboratory-"${MONTH}"/index.md
@@ -55,7 +60,6 @@ select opt in "${OPTIONS[@]}"; do
         ;;
         "Hugo Release Notes")
             read -r -p 'Version: ' VERSION
-            YEAR=$(date +'%Y')
             hugo new --kind hugo-release-notes blog/"${YEAR}"/hugo-"${VERSION}"-release-notes/index.md
             code {$CURPATH}/content/blog/"${YEAR}"/hugo-"${VERSION}"-release-notes/index.md
             exit
