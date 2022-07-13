@@ -25,6 +25,137 @@ CURPATH="$(pwd -P)"
 YEAR=$(date +'%Y')
 MONTH=$(date +'%B')
 ################################################################################
+# some functions we use ;]
+################################################################################
+################################################################################
+# retrieve options from CLI
+################################################################################
+# see https://github.com/UrsaDK/getopts_long
+getopts_long() {
+    : "${1:?Missing required parameter -- long optspec}"
+    : "${2:?Missing required parameter -- variable name}"
+    local optspec_short="${1%% *}-:"
+    local optspec_long="${1#* }"
+    local optvar="${2}"
+    shift 2
+    if [[ "${#}" == 0 ]]; then
+        local args=()
+        while [[ ${#BASH_ARGV[@]} -gt ${#args[@]} ]]; do
+            local index=$(( ${#BASH_ARGV[@]} - ${#args[@]} - 1 ))
+            args[${#args[@]}]="${BASH_ARGV[${index}]}"
+        done
+        set -- "${args[@]}"
+    fi
+    builtin getopts "${optspec_short}" "${optvar}" "${@}" || return 1
+    [[ "${!optvar}" == '-' ]] || return 0
+    printf -v "${optvar}" "%s" "${OPTARG%%=*}"
+    if [[ "${optspec_long}" =~ (^|[[:space:]])${!optvar}:([[:space:]]|$) ]]; then
+        OPTARG="${OPTARG#"${!optvar}"}"
+        OPTARG="${OPTARG#=}"
+        # Missing argument
+        if [[ -z "${OPTARG}" ]]; then
+            OPTARG="${!OPTIND}" && OPTIND=$(( OPTIND + 1 ))
+            [[ -z "${OPTARG}" ]] || return 0
+            if [[ "${optspec_short:0:1}" == ':' ]]; then
+                OPTARG="${!optvar}" && printf -v "${optvar}" ':'
+            else
+                [[ "${OPTERR}" == 0 ]] || \
+                echo "${0}: option requires an argument -- ${!optvar}" >&2
+                unset OPTARG && printf -v "${optvar}" '?'
+            fi
+        fi
+        elif [[ "${optspec_long}" =~ (^|[[:space:]])${!optvar}([[:space:]]|$) ]]; then
+        unset OPTARG
+    else
+        # Invalid option
+        if [[ "${optspec_short:0:1}" == ':' ]]; then
+            OPTARG="${!optvar}"
+        else
+            [[ "${OPTERR}" == 0 ]] || echo "${0}: illegal option -- ${!optvar}" >&2
+            unset OPTARG
+        fi
+        printf -v "${optvar}" '?'
+    fi
+}
+################################################################################
+# read an ini file into a variable
+################################################################################
+function parse_ini() {
+    # parse_ini < bin/dnb.ini                    # Show Sections
+    # parse_ini 'default' < bin/dnb.ini          # Show Options with values
+    # parse_ini 'default' 'option' < bin/dnb.ini # Show Option Value
+    # parse_ini 'two' 'iam' < bin/dnb.ini        # Same as last but from another section
+    # var=$(parse_ini 'two' 'iam' < bin/dnb.ini)
+    # echo "${var}"
+    # see https://stackoverflow.com/a/68960697/512174 for details
+    # cat /dev/stdin | awk -v section="$1" -v key="$2" '
+    < /dev/stdin awk -v section="$1" -v key="$2" '
+        BEGIN {
+            if (length(key) > 0) { params=2 }
+            else if (length(section) > 0) { params=1 }
+            else { params=0 }
+        }
+        match($0,/;/) { next }
+        match($0,/#/) { next }
+        match($0,/^\[(.+)\]$/){
+            current=substr($0, RSTART+1, RLENGTH-2)
+            found=current==section
+            if (params==0) { print current }
+        }
+        match($0,/(.+)=(.+)/) {
+            if (found) {
+                if (params==2 && key==substr($1, 0, length(key))) { print substr($0, length(key)+2) }
+                if (params==1) { printf "%s\n",$1,$3 }
+            }
+        }
+    '
+}
+################################################################################
+# decimal to roman conversion for post titles that are based on numbers to roman
+################################################################################
+declare -A r2d=(
+    [I]=1
+    [IV]=4
+    [V]=5
+    [IX]=9
+    [X]=10
+    [XL]=40
+    [L]=50
+    [XC]=90
+    [C]=100
+    [CD]=400
+    [D]=500
+    [CM]=900
+    [M]=1000
+)
+# build decimal to roman array from roman to decimal array
+for element in "${!r2d[@]}"; do
+    # shellcheck disable=SC2211,2276
+    d2r[r2d["$element"]]="$element"
+done
+decimal2roman() {
+    local decimal=$1 save=$1 indices=("${!d2r[@]}") n=${#indices[@]} roman
+    for ((i = n - 1; i >= 0; i--)); do
+        while ((decimal >= indices[i])); do
+            if (((temp = decimal - indices[i]) >= 0)); then
+                decimal=$temp
+                roman+=${d2r[indices[i]]}
+            fi
+        done
+    done
+    printf '%8s    --  %16s\n' "$save" "$roman"
+}
+################################################################################
+# preparing colors
+################################################################################
+COLOR_RED="$(tput setaf 1)"
+COLOR_LIGHT_GREEN="$(tput setaf 2)"
+COLOR_YELLOW="$(tput setaf 3)"
+COLOR_BLUE="$(tput setaf 4)"
+COLOR_PURPLE="$(tput setaf 5)"
+COLOR_GREEN="$(tput setaf 6)"
+COLOR_WHITE="$(tput setaf 7)"
+################################################################################
 # select new post version
 ################################################################################
 PS3='Choose section: '
