@@ -1,3 +1,5 @@
+# shellcheck shell=bash
+
 function add_replacements(){
 
   if test -f "$SCRIPTPATH"/replacements; then

@@ -1,3 +1,5 @@
+# shellcheck shell=bash
+
 check_tools() {
 
   for TOOL in "${REQUIRED_TOOLS[@]}"; do

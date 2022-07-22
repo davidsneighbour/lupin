@@ -1,3 +1,5 @@
+# shellcheck shell=bash
+
 ################################################################################
 # decimal to roman conversion for post titles that are based on numbers to roman
 ################################################################################
