@@ -1,6 +1,6 @@
 {
   "name": "lupin",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Lupin. A swiss army knife for managing my own [GoHugo](https://gohugo.io) based website projects. Might be useful for others one day.",
   "repository": {
     "type": "git",
