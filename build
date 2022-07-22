@@ -1,4 +1,19 @@
 #!/bin/bash
 
 CURPATH="$(pwd -P)"
-shc -f ${CURPATH}/src/lupin -o ${CURPATH}/dist/lupin
+BUILDFILE="./lupin.sh"
+
+echo "#!/bin/bash" > $BUILDFILE
+
+BUILDFILES="./buildfiles.txt"
+while IFS= read -r line
+do
+  for file in $line/*
+  do
+    cat "$file" >> $BUILDFILE
+  done
+done < "$BUILDFILES"
+
+cat ./src/lupin.sh >> $BUILDFILE
+
+shc -f ${CURPATH}/lupin.sh -o ${CURPATH}/dist/lupin
