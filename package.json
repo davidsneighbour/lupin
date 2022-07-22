@@ -1,6 +1,6 @@
 {
   "name": "lupin",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Lupin. A swiss army knife for managing my own [GoHugo](https://gohugo.io) based website projects. Might be useful for others one day.",
   "repository": {
     "type": "git",
@@ -17,8 +17,8 @@
     "@davidsneighbour/tools": "^4.0.9"
   },
   "scripts": {
-    "release": "standard-version --release-as patch -a -t \"v\" --releaseCommitMessageFormat \"chore(release): v{{currentTag}}\" && git push origin --all",
-    "release:major": "standard-version --release-as major -a -t \"v\" --releaseCommitMessageFormat \"chore(release): v{{currentTag}}\" && git push origin --all",
-    "release:minor": "standard-version --release-as minor -a -t \"v\" --releaseCommitMessageFormat \"chore(release): v{{currentTag}}\" && git push origin --all"
+    "release": "standard-version --release-as patch -a -t \"v\" --releaseCommitMessageFormat \"chore(release): v{{currentTag}}\" && git push origin --all && git push origin --follow-tags",
+    "release:major": "standard-version --release-as major -a -t \"v\" --releaseCommitMessageFormat \"chore(release): v{{currentTag}}\" && git push origin --all && git push origin --follow-tags",
+    "release:minor": "standard-version --release-as minor -a -t \"v\" --releaseCommitMessageFormat \"chore(release): v{{currentTag}}\" && git push origin --all && git push origin --follow-tags"
   }
 }
