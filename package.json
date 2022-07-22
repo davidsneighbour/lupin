@@ -1,0 +1,15 @@
+{
+  "name": "lupin",
+  "version": "0.0.1",
+  "description": "Lupin. A swiss army knife for managing my own [GoHugo](https://gohugo.io) based website projects. Might be useful for others one day.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/davidsneighbour/lupin.git"
+  },
+  "author": "Patrick Kollitsch <patrick@davids-neighbour.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/davidsneighbour/lupin/issues"
+  },
+  "homepage": "https://github.com/davidsneighbour/lupin#readme"
+}
